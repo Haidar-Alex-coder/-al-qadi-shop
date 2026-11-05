@@ -1,1 +1,104 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القاضي - إدارة المتجر</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+h1 { color: #17365d; }
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 15px auto;
+  max-width: 420px;
+  box-shadow: 0 2px 8px #ccc;
+}
+input, button {
+  width: 90%;
+  padding: 12px;
+  margin: 7px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+button {
+  background: #17365d;
+  color: white;
+  border: none;
+}
+.result { color: #16803c; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>القاضي 🏪</h1>
+<p>إدارة المبيعات والأرباح</p>
+
+<div class="card">
+<h3>تسجيل عملية بيع</h3>
+<input id="name" placeholder="اسم البضاعة">
+<input id="cost" type="number" placeholder="سعر الشراء">
+<input id="price" type="number" placeholder="سعر البيع">
+<input id="qty" type="number" placeholder="الكمية المباعة">
+<button onclick="addSale()">تسجيل البيع</button>
+</div>
+
+<div class="card">
+<h3>حسابات اليوم</h3>
+<p>إجمالي المبيعات: <span id="sales">0</span> $</p>
+<p class="result">إجمالي الأرباح: <span id="profit">0</span> $</p>
+</div>
+
+<div class="card">
+<h3>سجل المبيعات</h3>
+<div id="history"></div>
+</div>
+
+<script>
+let sales = 0;
+let profit = 0;
+
+function addSale() {
+  let name = document.getElementById("name").value;
+  let cost = Number(document.getElementById("cost").value);
+  let price = Number(document.getElementById("price").value);
+  let qty = Number(document.getElementById("qty").value);
+
+  if (!name || cost < 0 || price < 0 || qty <= 0 ||
+      !Number.isFinite(cost) || !Number.isFinite(price)) {
+    alert("أدخل البيانات بشكل صحيح");
+    return;
+  }
+
+  let total = price * qty;
+  let gain = (price - cost) * qty;
+
+  sales += total;
+  profit += gain;
+
+  document.getElementById("sales").textContent = sales.toFixed(2);
+  document.getElementById("profit").textContent = profit.toFixed(2);
+
+  document.getElementById("history").innerHTML +=
+    "<p>" + name + " — " + qty + " قطعة — ربح: " +
+    gain.toFixed(2) + " $</p>";
+
+  document.getElementById("name").value = "";
+  document.getElementById("cost").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("qty").value = "";
+}
+</script>
+
+</body>
+</html>
